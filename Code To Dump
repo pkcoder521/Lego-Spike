@@ -1,0 +1,31 @@
+from spike import PrimeHub, LightMatrix, Button, StatusLight, ForceSensor, MotionSensor, Speaker, ColorSensor, App, DistanceSensor, Motor, MotorPair
+from spike.control import wait_for_seconds, wait_until, Timer
+
+g_hub = PrimeHub() 
+g_back_motor = Motor('C')
+def dump(hub, back_motor):
+    FULL = 0.75
+    TINY = 0.10
+    SLOW = 15
+    FAST = 60
+
+    # tip contents slowly
+    back_motor.set_default_speed(SLOW) 
+    back_motor.run_for_rotations(-FULL)
+
+    # reset motor speed fast
+    back_motor.set_default_speed(FAST)
+
+    # 3-shakes
+    for x in range(3):
+        back_motor.run_for_rotations(TINY)
+        back_motor.run_for_rotations(-TINY)
+
+    # get back to reset position
+    back_motor.run_for_rotations(FULL)
+    back_motor.set_default_speed(SLOW)
+
+
+# main code
+dump(g_hub, g_back_motor)
+
